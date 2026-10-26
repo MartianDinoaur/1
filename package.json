@@ -6,6 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "setup:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/setup-windows.ps1",
     "start:lan": "HOST=0.0.0.0 node server.js",
     "autostart:on": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/install-windows-autostart.ps1",
     "autostart:off": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/uninstall-windows-autostart.ps1",

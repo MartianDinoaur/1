@@ -7,6 +7,7 @@ $ErrorActionPreference = "Stop"
 $TaskName = "FavoriteThingsPoll"
 $ProjectPath = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $NodeCommand = (Get-Command node -ErrorAction SilentlyContinue)
+$WindowsIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
 
 if ($null -eq $NodeCommand) {
   throw "Node.js was not found in PATH. Install Node.js for Windows and reopen PowerShell."
@@ -20,9 +21,9 @@ switch ($Action) {
     }
 
     $action = New-ScheduledTaskAction -Execute $NodeCommand.Source -Argument "server.js" -WorkingDirectory $ProjectPath
-    $trigger = New-ScheduledTaskTrigger -AtLogOn
+    $trigger = New-ScheduledTaskTrigger -AtLogOn -User $WindowsIdentity.Name
     $settings = New-ScheduledTaskSettingsSet -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1) -ExecutionTimeLimit (New-TimeSpan -Days 365) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
-    $principal = New-ScheduledTaskPrincipal -UserId $env:USERDOMAIN\$env:USERNAME -LogonType Interactive -RunLevel Highest
+    $principal = New-ScheduledTaskPrincipal -UserId $WindowsIdentity.Name -LogonType Interactive -RunLevel Highest
     $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $settings
     Register-ScheduledTask -TaskName $TaskName -InputObject $task -Force | Out-Null
 

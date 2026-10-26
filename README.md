@@ -2,6 +2,8 @@
 
 A server-backed poll for meat, vegetables, desserts, and animals, with shared result charts and server statistics.
 
+**Windows 10 download:** [Download FavoriteThingsPoll-Windows.zip](https://github.com/TheNamelessEvilNamedNag/1/raw/main/downloads/FavoriteThingsPoll-Windows.zip)
+
 ## Run
 
 ```bash
@@ -17,6 +19,14 @@ Data is stored in `poll-data.json`. Set `POLL_DATA_FILE` to place it elsewhere a
 ## Start automatically on Windows 10
 
 Run these commands in Windows PowerShell, after opening the project folder:
+
+```cmd
+setup-windows.cmd
+```
+
+Running this installer creates and starts autostart automatically. It will install Node.js LTS when needed and configure Windows Firewall for private-network access.
+
+To recreate or inspect the default-on task afterward:
 
 ```powershell
 npm run autostart:on

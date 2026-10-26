@@ -29,6 +29,11 @@ EOF
 
 case "${1:-status}" in
   on)
+    if [[ ! -d /run/systemd/system ]] || ! systemctl --user is-system-running >/dev/null 2>&1; then
+      echo "Cannot enable host autostart: no user systemd session is available." >&2
+      echo "Run this command on the real Linux computer that owns the project." >&2
+      exit 1
+    fi
     write_unit
     systemctl --user daemon-reload
     systemctl --user enable --now "$unit_name"

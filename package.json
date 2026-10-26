@@ -6,6 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "start:lan": "HOST=0.0.0.0 node server.js",
     "check": "node --check server.js && node --check script.js"
   }
 }

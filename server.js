@@ -5,6 +5,7 @@ const crypto = require("crypto");
 
 const root = __dirname;
 const dataFile = process.env.POLL_DATA_FILE || path.join(root, "poll-data.json");
+const host = process.env.HOST || "0.0.0.0";
 const port = Number(process.env.PORT || 4173);
 const categories = {
   meat: ["Chicken", "Beef", "Pork", "Fish", "Lamb"],
@@ -214,8 +215,8 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(port, () => {
-  console.log(`Favorite Things running at http://localhost:${port}`);
+server.listen(port, host, () => {
+  console.log(`Favorite Things running at http://${host}:${port}`);
 });
 
 process.once("SIGTERM", () => handleShutdown("SIGTERM"));

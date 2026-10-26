@@ -1,0 +1,11 @@
+{
+  "name": "favorite-things-poll",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Server-backed favorite polls with completion statistics",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check script.js"
+  }
+}

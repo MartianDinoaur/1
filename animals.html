@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favorite animal | Favorite Things</title><link rel="stylesheet" href="styles.css"><script src="script.js" defer></script>
+</head>
+<body data-page="animals" data-category="animals">
+  <main class="poll-shell">
+    <nav class="top-nav"><a href="index.html">← All polls</a><span>Poll 04 of 04</span></nav>
+    <section class="poll-panel">
+      <header><p class="eyebrow">Favorite animal</p><h1>Who rules the animal kingdom?</h1></header>
+      <form class="choice-list" data-poll="animals">
+        <label><input type="radio" name="animals" value="Dog"><span>Dog</span></label>
+        <label><input type="radio" name="animals" value="Cat"><span>Cat</span></label>
+        <label><input type="radio" name="animals" value="Lion"><span>Lion</span></label>
+        <label><input type="radio" name="animals" value="Elephant"><span>Elephant</span></label>
+        <label><input type="radio" name="animals" value="Penguin"><span>Penguin</span></label>
+        <label class="other-option"><input type="radio" name="animals" value="__other__"><span>Other</span><span class="other-answer"><span>Your answer</span><input id="animals-other" name="animals-other" type="text" maxlength="40" placeholder="Type an answer" autocomplete="off" disabled></span></label>
+        <button class="submit-vote" type="submit">Cast your vote <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="vote-message" role="status"></p>
+    </section>
+  </main>
+  <nav class="page-nav"><a href="results.html">See poll results <span aria-hidden="true">→</span></a></nav>
+</body>
+</html>

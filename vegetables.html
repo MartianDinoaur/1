@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favorite vegetables | Favorite Things</title><link rel="stylesheet" href="styles.css"><script src="script.js" defer></script>
+</head>
+<body data-page="vegetables" data-category="vegetables">
+  <main class="poll-shell">
+    <nav class="top-nav"><a href="index.html">← All polls</a><span>Poll 02 of 04</span></nav>
+    <section class="poll-panel">
+      <header><p class="eyebrow">Favorite vegetables</p><h1>Which one gets first pick?</h1></header>
+      <form class="choice-list" data-poll="vegetables">
+        <label><input type="radio" name="vegetables" value="Broccoli"><span>Broccoli</span></label>
+        <label><input type="radio" name="vegetables" value="Carrots"><span>Carrots</span></label>
+        <label><input type="radio" name="vegetables" value="Corn"><span>Corn</span></label>
+        <label><input type="radio" name="vegetables" value="Potatoes"><span>Potatoes</span></label>
+        <label><input type="radio" name="vegetables" value="Spinach"><span>Spinach</span></label>
+        <label class="other-option"><input type="radio" name="vegetables" value="__other__"><span>Other</span><span class="other-answer"><span>Your answer</span><input id="vegetables-other" name="vegetables-other" type="text" maxlength="40" placeholder="Type an answer" autocomplete="off" disabled></span></label>
+        <button class="submit-vote" type="submit">Cast your vote <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="vote-message" role="status"></p>
+    </section>
+  </main>
+  <nav class="page-nav"><a href="desserts.html">Next: desserts <span aria-hidden="true">→</span></a></nav>
+</body>
+</html>

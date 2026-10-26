@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: favorite-things-poll
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/stats
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: POLL_DATA_FILE
+        value: /var/data/poll-data.json
+    disk:
+      name: poll-data
+      mountPath: /var/data
+      sizeGB: 1

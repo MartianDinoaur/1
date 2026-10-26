@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favorite desserts | Favorite Things</title><link rel="stylesheet" href="styles.css"><script src="script.js" defer></script>
+</head>
+<body data-page="desserts" data-category="desserts">
+  <main class="poll-shell">
+    <nav class="top-nav"><a href="index.html">← All polls</a><span>Poll 03 of 04</span></nav>
+    <section class="poll-panel">
+      <header><p class="eyebrow">Favorite desserts</p><h1>Save room for the best one.</h1></header>
+      <form class="choice-list" data-poll="desserts">
+        <label><input type="radio" name="desserts" value="Cake"><span>Cake</span></label>
+        <label><input type="radio" name="desserts" value="Cookies"><span>Cookies</span></label>
+        <label><input type="radio" name="desserts" value="Ice Cream"><span>Ice cream</span></label>
+        <label><input type="radio" name="desserts" value="Pie"><span>Pie</span></label>
+        <label><input type="radio" name="desserts" value="Brownies"><span>Brownies</span></label>
+        <label class="other-option"><input type="radio" name="desserts" value="__other__"><span>Other</span><span class="other-answer"><span>Your answer</span><input id="desserts-other" name="desserts-other" type="text" maxlength="40" placeholder="Type an answer" autocomplete="off" disabled></span></label>
+        <button class="submit-vote" type="submit">Cast your vote <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="vote-message" role="status"></p>
+    </section>
+  </main>
+  <nav class="page-nav"><a href="animals.html">Next: animals <span aria-hidden="true">→</span></a></nav>
+</body>
+</html>

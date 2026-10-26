@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favorite meat | Favorite Things</title><link rel="stylesheet" href="styles.css"><script src="script.js" defer></script>
+</head>
+<body data-page="meat" data-category="meat">
+  <main class="poll-shell">
+    <nav class="top-nav"><a href="index.html">← All polls</a><span>Poll 01 of 04</span></nav>
+    <section class="poll-panel">
+      <header><p class="eyebrow">Favorite meat</p><h1>What earns a place at the table?</h1></header>
+      <form class="choice-list" data-poll="meat">
+        <label><input type="radio" name="meat" value="Chicken"><span>Chicken</span></label>
+        <label><input type="radio" name="meat" value="Beef"><span>Beef</span></label>
+        <label><input type="radio" name="meat" value="Pork"><span>Pork</span></label>
+        <label><input type="radio" name="meat" value="Fish"><span>Fish</span></label>
+        <label><input type="radio" name="meat" value="Lamb"><span>Lamb</span></label>
+        <label class="other-option"><input type="radio" name="meat" value="__other__"><span>Other</span><span class="other-answer"><span>Your answer</span><input id="meat-other" name="meat-other" type="text" maxlength="40" placeholder="Type an answer" autocomplete="off" disabled></span></label>
+        <button class="submit-vote" type="submit">Cast your vote <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="vote-message" role="status"></p>
+    </section>
+  </main>
+  <nav class="page-nav" aria-label="Next poll"><a href="vegetables.html">Next: vegetables <span aria-hidden="true">→</span></a></nav>
+</body>
+</html>

@@ -24,7 +24,7 @@ Run these commands in Windows PowerShell, after opening the project folder:
 setup-windows.cmd
 ```
 
-Running this installer creates and starts autostart automatically. It will install Node.js LTS when needed and configure Windows Firewall for private-network access.
+Running this installer creates and starts autostart automatically. Install Node.js LTS from https://nodejs.org/ before running it. The installer uses standard Windows Task Scheduler commands, does not request administrator access, and does not change Windows Firewall settings.
 
 To recreate or inspect the default-on task afterward:
 

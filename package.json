@@ -7,6 +7,9 @@
   "scripts": {
     "start": "node server.js",
     "start:lan": "HOST=0.0.0.0 node server.js",
+    "autostart:on": "./scripts/install-autostart.sh",
+    "autostart:off": "./scripts/uninstall-autostart.sh",
+    "autostart:status": "./scripts/poll-control.sh status",
     "check": "node --check server.js && node --check script.js"
   }
 }

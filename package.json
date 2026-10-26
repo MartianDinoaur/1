@@ -7,9 +7,9 @@
   "scripts": {
     "start": "node server.js",
     "start:lan": "HOST=0.0.0.0 node server.js",
-    "autostart:on": "./scripts/install-autostart.sh",
-    "autostart:off": "./scripts/uninstall-autostart.sh",
-    "autostart:status": "./scripts/poll-control.sh status",
+    "autostart:on": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/install-windows-autostart.ps1",
+    "autostart:off": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/uninstall-windows-autostart.ps1",
+    "autostart:status": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/windows-poll-control.ps1 status",
     "check": "node --check server.js && node --check script.js"
   }
 }

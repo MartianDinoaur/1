@@ -14,18 +14,26 @@ Then visit `http://localhost:4173`. Other devices on the same network can visit 
 The API reports today, 7-day, this-month, this-year, and overall completions, with separate submission totals for every poll. “Completed form” means one browser session has answered all four polls.
 
 Data is stored in `poll-data.json`. Set `POLL_DATA_FILE` to place it elsewhere and keep the file on persistent storage so poll totals survive restarts. Every accepted vote is written atomically and synced before the browser receives confirmation, including a filesystem sync to preserve it across process or host restarts. Render's configured disk mount provides this persistence.
-## Start automatically on this computer
+## Start automatically on Windows 10
 
-On a real Linux host with systemd and a user login session, run:
+Run these commands in Windows PowerShell, after opening the project folder:
 
-```bash
+```powershell
 npm run autostart:on
 ```
 
-This enables the poll to start after login, stay running, and restart after a crash. Stop and disable it with:
+This creates a per-user Windows Task Scheduler task named `FavoriteThingsPoll`. It starts after sign-in, listens on port `4173`, and restarts up to three times after a crash. You do not need to keep a terminal or browser tab open.
 
-```bash
+Stop the server and disable automatic startup:
+
+```powershell
 npm run autostart:off
 ```
 
-Check its state with `npm run autostart:status`. These commands control the host system, not a disposable browser tab or VS Code terminal. They require the project to stay in the same directory and may require `loginctl enable-linger` permissions for startup before interactive login.
+Check the task state:
+
+```powershell
+npm run autostart:status
+```
+
+Windows may ask for your account password or permission to create a scheduled task. Keep the project folder in place and leave the computer awake and connected to the network for LAN access.

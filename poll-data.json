@@ -6,6 +6,13 @@
       "key": "__other__:bacon",
       "label": "Bacon",
       "timestamp": "2026-10-27T23:57:18.379Z"
+    },
+    {
+      "sessionId": "78f2c5f162a4cd76e20c5c8ccc84b923913adeed5a4f7f9c7f884680aa547659",
+      "category": "vegetables",
+      "key": "Potatoes",
+      "label": "Potatoes",
+      "timestamp": "2026-10-27T23:57:23.233Z"
     }
   ],
   "sessions": {
@@ -15,6 +22,11 @@
           "key": "__other__:bacon",
           "label": "Bacon",
           "updatedAt": "2026-10-27T23:57:18.379Z"
+        },
+        "vegetables": {
+          "key": "Potatoes",
+          "label": "Potatoes",
+          "updatedAt": "2026-10-27T23:57:23.233Z"
         }
       },
       "completedAt": null,

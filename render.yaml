@@ -11,7 +11,7 @@ services:
       - key: POLL_GITHUB_TOKEN
         sync: false
       - key: POLL_GITHUB_REPOSITORY
-        value: TheNamelessEvilNamedNag/1
+        value: MartianDinoaur/1
       - key: POLL_GITHUB_BRANCH
         value: main
       - key: POLL_GITHUB_DATA_PATH
@@ -21,4 +21,4 @@ services:
       - key: POLL_DATA_FILE
         value: /tmp/poll-data.json
       - key: POLL_ALLOWED_ORIGINS
-        value: https://thenamelessevilnamednag.github.io
+        value: https://martiandinoaur.github.io

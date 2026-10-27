@@ -129,8 +129,7 @@ function setupUptime() {
       }
       const startedAt = Date.parse(result.startedAt);
       if (!Number.isFinite(startedAt)) throw new Error("The poll server returned an invalid start time.");
-      const elapsedSeconds = Math.max(result.uptimeSeconds, (Date.now() - startedAt) / 1000);
-      output.textContent = formatUptime(elapsedSeconds);
+      output.textContent = formatUptime(result.uptimeSeconds);
       output.dateTime = result.startedAt;
       output.title = `This server process started ${new Date(startedAt).toLocaleString()}`;
     } catch (error) {

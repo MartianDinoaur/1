@@ -1,22 +1,33 @@
 # Favorite Things Poll
 
-A server-backed poll for meat, vegetables, desserts, and animals, with shared result charts and server statistics.
+A shared poll site for meat, vegetables, desserts, and animals. Votes are saved in this repository and results are visible to all visitors.
 
-**Windows 10 download:** [Download FavoriteThingsPoll-Windows.zip](https://github.com/TheNamelessEvilNamedNag/1/raw/main/downloads/FavoriteThingsPoll-Windows.zip)
+## Publish on GitHub Pages
 
-## Run
+For free GitHub Pages hosting, this repository needs to be public.
+
+1. Push this repository to GitHub.
+2. In the repository, open **Settings → Pages** and set the build and deployment source to **GitHub Actions**.
+3. Deploy the `render.yaml` web service on Render. Create a GitHub fine-grained personal access token with **Contents: read and write** permission for this repository, then set it as the Render `POLL_GITHUB_TOKEN` secret. Do not put this token in the site or a GitHub Pages variable.
+4. Copy the Render service URL (for example, `https://favorite-things-poll.onrender.com`) into the repository's **Settings → Secrets and variables → Actions → Variables** as `POLL_API_URL`.
+5. Push to the `main` branch or run the **Deploy to GitHub Pages** workflow from the Actions tab.
+
+The workflow publishes the site at `https://<owner>.github.io/<repository>/`.
+The Render service allows requests from this repository's GitHub Pages origin. If you use a custom Pages domain, update `POLL_ALLOWED_ORIGINS` in Render to match that site's origin.
+
+## Run locally
 
 ```bash
-npm install
 npm start
 ```
 
-Then visit `http://localhost:4173`. Other devices on the same network can visit `http://<computer-ip>:4173`; for example, this computer is `10.0.1.129`. The server binds to all network interfaces. Each poll includes an Other option. Custom answers are normalized and grouped regardless of capitalization, while the first spelling is retained in the chart legend.
+Then visit `http://localhost:4173`.
 
-The API reports today, 7-day, this-month, this-year, and overall completions, with separate submission totals for every poll. “Completed form” means one browser session has answered all four polls.
+Each browser can save one answer per poll, and that answer can be changed. Votes are committed to `poll-data.json` in this repository; results show the shared totals. A browser session identifier is stored locally so a visitor can change their vote. Custom answers are normalized and grouped.
 
-Data is stored in `poll-data.json`. Set `POLL_DATA_FILE` to place it elsewhere and keep the file on persistent storage so poll totals survive restarts. Every accepted vote is written atomically and synced before the browser receives confirmation, including a filesystem sync to preserve it across process or host restarts. Render's configured disk mount provides this persistence.
 ## Start automatically on Windows 10
+
+This optional setup serves a local copy of the site. Without the GitHub token configured, local votes are stored in `poll-data.json` on that computer.
 
 Run these commands in Windows PowerShell, after opening the project folder:
 

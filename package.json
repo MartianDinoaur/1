@@ -2,7 +2,7 @@
   "name": "favorite-things-poll",
   "version": "2.0.0",
   "private": true,
-  "description": "Server-backed favorite polls with completion statistics",
+  "description": "Shared favorite polls with repository-backed results",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

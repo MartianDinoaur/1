@@ -20,6 +20,13 @@
       "key": "Ice Cream",
       "label": "Ice Cream",
       "timestamp": "2026-10-27T23:57:26.219Z"
+    },
+    {
+      "sessionId": "78f2c5f162a4cd76e20c5c8ccc84b923913adeed5a4f7f9c7f884680aa547659",
+      "category": "animals",
+      "key": "Lion",
+      "label": "Lion",
+      "timestamp": "2026-10-27T23:57:31.103Z"
     }
   ],
   "sessions": {
@@ -39,9 +46,14 @@
           "key": "Ice Cream",
           "label": "Ice Cream",
           "updatedAt": "2026-10-27T23:57:26.219Z"
+        },
+        "animals": {
+          "key": "Lion",
+          "label": "Lion",
+          "updatedAt": "2026-10-27T23:57:31.103Z"
         }
       },
-      "completedAt": null,
+      "completedAt": "2026-10-27T23:57:31.103Z",
       "startedAt": "2026-10-27T23:57:18.379Z"
     }
   },

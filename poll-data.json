@@ -1,0 +1,25 @@
+{
+  "votes": [
+    {
+      "sessionId": "78f2c5f162a4cd76e20c5c8ccc84b923913adeed5a4f7f9c7f884680aa547659",
+      "category": "meat",
+      "key": "__other__:bacon",
+      "label": "Bacon",
+      "timestamp": "2026-10-27T23:57:18.379Z"
+    }
+  ],
+  "sessions": {
+    "78f2c5f162a4cd76e20c5c8ccc84b923913adeed5a4f7f9c7f884680aa547659": {
+      "answers": {
+        "meat": {
+          "key": "__other__:bacon",
+          "label": "Bacon",
+          "updatedAt": "2026-10-27T23:57:18.379Z"
+        }
+      },
+      "completedAt": null,
+      "startedAt": "2026-10-27T23:57:18.379Z"
+    }
+  },
+  "migrations": 0
+}

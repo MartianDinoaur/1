@@ -18,7 +18,7 @@ npm start
 
 Then visit `http://localhost:4173`.
 
-Each visitor can submit one answer per poll, and that answer can be changed by submitting another choice. Vote counts and results are shared across visitors. The browser stores a random session ID; clearing site data starts a new voting session. Custom answers are stored along with the built-in choices.
+Each visitor can submit one answer per poll, and that answer can be changed by submitting another choice or withdrawn with `POST /api/vote/withdraw` using the same `X-Poll-Session` ID and a JSON `category`. Vote counts and results are shared across visitors. The browser stores a random session ID; clearing site data starts a new voting session. Custom answers are stored along with the built-in choices.
 
 ## Start automatically on Windows 10
 

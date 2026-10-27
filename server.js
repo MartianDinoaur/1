@@ -285,6 +285,48 @@ async function receiveVote(req, res) {
   sendJson(res, 200, response);
 }
 
+async function withdrawVote(req, res) {
+  const visitorId = sessionId(req);
+  setCookie(res, visitorId);
+  const id = crypto.createHash("sha256").update(visitorId).digest("hex");
+  const payload = await readJson(req);
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    return sendJson(res, 400, { error: "Invalid vote data" });
+  }
+  const { category } = payload;
+  if (typeof category !== "string" || !Object.hasOwn(categories, category)) {
+    return sendJson(res, 400, { error: "Unknown category" });
+  }
+
+  const response = await updateData(() => {
+    const session = data.sessions[id];
+    if (!session?.answers[category]) {
+      return {
+        changed: false,
+        value: {
+          ok: true,
+          removed: false,
+          totalVotes: data.votes.filter(vote => vote.category === category).length
+        }
+      };
+    }
+
+    const voteIndex = data.votes.findLastIndex(vote => vote.sessionId === id && vote.category === category);
+    if (voteIndex >= 0) data.votes.splice(voteIndex, 1);
+    delete session.answers[category];
+    session.completedAt = null;
+    return {
+      changed: true,
+      value: {
+        ok: true,
+        removed: true,
+        totalVotes: data.votes.filter(vote => vote.category === category).length
+      }
+    };
+  });
+  sendJson(res, 200, response);
+}
+
 function isAfter(timestamp, start) {
   return new Date(timestamp) >= start;
 }
@@ -386,6 +428,7 @@ const server = http.createServer(async (req, res) => {
       }
     }
     if (req.method === "POST" && url.pathname === "/api/vote") return await receiveVote(req, res);
+    if (req.method === "POST" && url.pathname === "/api/vote/withdraw") return await withdrawVote(req, res);
     if (req.method === "GET" && url.pathname === "/api/stats") {
       const stats = await serializeOperation(async () => {
         if (requireGithubStorage && !githubToken) {

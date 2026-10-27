@@ -4,21 +4,11 @@ A poll site for meat, vegetables, desserts, and animals. Votes are sent to a Nod
 
 ## Hosting the shared poll
 
-GitHub Pages hosts the website files, but it cannot run the API. The API must run separately. The following no-cost hobby setup uses a Render free web service and GitHub repository storage:
+The included [Render Blueprint](./render.yaml) deploys the complete site and API together, without a separate database or GitHub token. Render's free web service uses temporary storage: votes can be lost whenever the service sleeps, restarts, or redeploys. The Pages site can also send votes to the Render API.
 
-1. Create a GitHub fine-grained personal access token for this repository only, with **Contents: Read and write** permission. Do not paste the token into chat or commit it to the repository.
-2. In Render, create a **Web Service** from this repository's `main` branch. Use build command `npm ci`, start command `npm start`, and the **Free** instance type.
-3. Add these environment variables to the Render service:
-   - `POLL_REQUIRE_GITHUB_STORAGE` = `true`
-   - `POLL_GITHUB_TOKEN` = the token from step 1 (enter it as a secret in Render)
-   - `POLL_GITHUB_REPOSITORY` = `TheNamelessEvilNamedNag/1`
-   - `POLL_GITHUB_BRANCH` = `main`
-   - `POLL_ALLOWED_ORIGINS` = `https://thenamelessevilnamednag.github.io`
-4. Turn off automatic deploys for Git commits in Render. The API saves votes by committing `poll-data.json` to the repository; automatic API deploys on those data commits are unnecessary.
-5. After Render deploys, open `https://<your-render-service>.onrender.com/api/stats` and confirm it returns JSON. In `api-config.js`, set `POLL_API_BASE_URL` to the service origin, for example `https://favorite-things-poll-api.onrender.com` (no path or trailing slash).
-6. Commit and push that configuration. The GitHub Pages workflow publishes the frontend, which then sends votes to the Render API.
+To launch it, first push the repository changes to `main`, then [deploy the Render Blueprint](https://render.com/deploy?repo=https://github.com/TheNamelessEvilNamedNag/1) and authorize Render to access the repository. Applying the blueprint creates a free web service named `nameless-evil-nag-poll-1`; the configured site URL is `https://nameless-evil-nag-poll-1.onrender.com`. If Render reports that this service name is unavailable, choose another name and update `api-config.js` to its corresponding `https://<name>.onrender.com` URL before pushing.
 
-The GitHub token stays on Render and is never sent to website visitors. Vote data is stored in `poll-data.json` in this repository. The Render free tier sleeps when idle, so the first request after a while may take about a minute. Render documents the free tier as intended for hobby/testing rather than production; free-service limits can suspend service, so review the current [free-instance limitations](https://render.com/docs/free) before relying on it. Do not add a payment method if you want to avoid charges.
+The GitHub Pages workflow publishes the static frontend when the changes are pushed. Once the Render service finishes its initial deploy, both the Render-hosted site and Pages site can submit votes. The first request after Render has slept may take about a minute. Render describes its free tier as intended for hobby/testing rather than production, and its free services may be suspended at usage limits; see [free-instance limitations](https://render.com/docs/free). Do not add a payment method if you want to avoid charges.
 
 ## Run locally
 

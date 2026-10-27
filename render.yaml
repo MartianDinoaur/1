@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: nameless-evil-nag-poll-1
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/stats
+    envVars:
+      - key: POLL_DATA_FILE
+        value: /tmp/poll-data.json
+      - key: POLL_ALLOWED_ORIGINS
+        value: https://thenamelessevilnamednag.github.io

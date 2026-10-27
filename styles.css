@@ -71,7 +71,8 @@ h1 { max-width: 780px; margin: 0; font-size: clamp(3.7rem, 8.5vw, 8.6rem); line-
 .results-shell { min-height: 100vh; padding: 38px clamp(24px, 5vw, 72px) 72px; }
 .results-header { position: relative; margin-bottom: 58px; }
 .results-header h1 { max-width: 900px; font-size: clamp(3.7rem, 8vw, 7.8rem); }
-.results-header .top-nav { margin-bottom: 64px; }
+.results-header .top-nav { margin-bottom: 24px; }
+.results-header .uptime-panel { margin: 0 0 36px; }
 .results-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; align-items: start; }
 .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
 .chart-card { min-width: 0; padding: 24px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }

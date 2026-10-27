@@ -10,6 +10,11 @@
   <main class="results-shell">
     <header class="results-header">
       <nav class="top-nav"><a href="index.html">← All polls</a></nav>
+      <section class="uptime-panel" aria-labelledby="uptime-heading">
+        <p class="eyebrow">The clock is ticking</p>
+        <h2 id="uptime-heading">This site instance has been running for</h2>
+        <output id="site-uptime" role="status" aria-live="polite">Checking uptime…</output>
+      </section>
       <p class="eyebrow">Live tally</p>
       <h1>The people have spoken.</h1>
       <p class="lede">Results include votes submitted by all visitors.</p>
@@ -43,11 +48,6 @@
         <button id="reload-page" type="button">Reload page <span aria-hidden="true">↻</span></button>
       </aside>
     </div>
-    <section class="uptime-panel" aria-labelledby="uptime-heading">
-      <p class="eyebrow">The clock is ticking</p>
-      <h2 id="uptime-heading">This site instance has been running for</h2>
-      <output id="site-uptime" role="status" aria-live="polite">Checking uptime…</output>
-    </section>
   </main>
 </body>
 </html>

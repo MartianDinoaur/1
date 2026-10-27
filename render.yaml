@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: nameless-evil-nag-poll-1
+    name: martiandinoaur-favorite-poll
     runtime: node
     plan: free
     branch: main

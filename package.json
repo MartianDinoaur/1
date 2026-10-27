@@ -2,7 +2,7 @@
   "name": "favorite-things-poll",
   "version": "2.0.0",
   "private": true,
-  "description": "Shared favorite polls with repository-backed results",
+  "description": "Static favorite polls with local browser results",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

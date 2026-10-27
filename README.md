@@ -1,6 +1,6 @@
 # Favorite Things Poll
 
-A shared poll site for meat, vegetables, desserts, and animals. Votes are saved in this repository and results are visible to all visitors.
+A static poll site for meat, vegetables, desserts, and animals. Votes are saved in each visitor's browser, so publishing requires no backend, token, or external service.
 
 ## Publish on GitHub Pages
 
@@ -8,12 +8,9 @@ For free GitHub Pages hosting, this repository needs to be public.
 
 1. Push this repository to GitHub.
 2. In the repository, open **Settings → Pages** and set the build and deployment source to **GitHub Actions**.
-3. Deploy the `render.yaml` web service on Render. Create a GitHub fine-grained personal access token with **Contents: read and write** permission for this repository, then set it as the Render `POLL_GITHUB_TOKEN` secret. Do not put this token in the site or a GitHub Pages variable.
-4. Copy the Render service URL (for example, `https://favorite-things-poll.onrender.com`) into the repository's **Settings → Secrets and variables → Actions → Variables** as `POLL_API_URL`.
-5. Push to the `main` branch or run the **Deploy to GitHub Pages** workflow from the Actions tab.
+3. Push to the `main` branch or run the **Deploy to GitHub Pages** workflow from the Actions tab.
 
 The workflow publishes the site at `https://<owner>.github.io/<repository>/`.
-The Render service allows requests from this repository's GitHub Pages origin. If you use a custom Pages domain, update `POLL_ALLOWED_ORIGINS` in Render to match that site's origin.
 
 ## Run locally
 
@@ -23,11 +20,11 @@ npm start
 
 Then visit `http://localhost:4173`.
 
-Each browser can save one answer per poll, and that answer can be changed. Votes are committed to `poll-data.json` in this repository; results show the shared totals. A browser session identifier is stored locally so a visitor can change their vote. Custom answers are normalized and grouped.
+Each browser can save one answer per poll, and that answer can be changed. Results are private to that browser and are not shared across visitors or devices. Clearing the browser's site data removes its saved votes. Custom answers are stored along with the built-in choices.
 
 ## Start automatically on Windows 10
 
-This optional setup serves a local copy of the site. Without the GitHub token configured, local votes are stored in `poll-data.json` on that computer.
+This optional setup serves a local copy of the site; votes are still saved in each browser.
 
 Run these commands in Windows PowerShell, after opening the project folder:
 

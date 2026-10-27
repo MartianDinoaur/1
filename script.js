@@ -6,6 +6,23 @@ const pollData = {
 };
 
 const palette = ["#ef6a4c", "#8da86d", "#e9bd58", "#69a2b9", "#cc5b62"];
+const sessionStorageKey = "favorite-things-poll-session";
+const apiBaseUrl = typeof window.POLL_API_BASE_URL === "string"
+  ? window.POLL_API_BASE_URL.trim().replace(/\/+$/, "")
+  : "";
+
+function apiUrl(path) {
+  return `${apiBaseUrl}${path}`;
+}
+
+function pollSessionId() {
+  let id = localStorage.getItem(sessionStorageKey);
+  if (!id || !/^[a-zA-Z0-9_-]{24,80}$/.test(id)) {
+    id = crypto.randomUUID();
+    localStorage.setItem(sessionStorageKey, id);
+  }
+  return id;
+}
 
 async function requestJson(url, options) {
   const response = await fetch(url, options);
@@ -57,9 +74,9 @@ function setupPollPage() {
     const label = choice === "__other__" ? customAnswer.trim().replace(/\s+/g, " ") : choice;
     submitButton.disabled = true;
     try {
-      const result = await requestJson("/api/vote", {
+      const result = await requestJson(apiUrl("/api/vote"), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-Poll-Session": pollSessionId() },
         body: JSON.stringify({ category, choice, customAnswer })
       });
       if (result.ok !== true || typeof result.totalVotes !== "number") {
@@ -96,7 +113,7 @@ async function renderResults() {
   });
 
   try {
-    const stats = await requestJson("/api/stats");
+    const stats = await requestJson(apiUrl("/api/stats"));
     if (!stats.polls || typeof stats.polls !== "object") {
       throw new Error("The poll server returned incomplete results.");
     }

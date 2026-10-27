@@ -30,10 +30,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+      - name: Check poll API URL
+        run: |
+          if ! grep -Eq '^window\.POLL_API_BASE_URL = "https://[^"/]+";$' api-config.js; then
+            echo "::error::Set the HTTPS API origin in api-config.js before deploying the Pages site."
+            exit 1
+          fi
       - name: Prepare site files
         run: |
           mkdir -p _site
-          cp index.html meat.html vegetables.html desserts.html animals.html results.html styles.css script.js _site/
+          cp index.html meat.html vegetables.html desserts.html animals.html results.html styles.css api-config.js script.js _site/
       - name: Upload site files
         uses: actions/upload-pages-artifact@v3
         with:

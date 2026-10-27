@@ -16,8 +16,6 @@ services:
         value: main
       - key: POLL_GITHUB_DATA_PATH
         value: poll-data.json
-      - key: POLL_REQUIRE_GITHUB_STORAGE
-        value: "false"
       - key: POLL_DATA_FILE
         value: /tmp/poll-data.json
       - key: POLL_ALLOWED_ORIGINS

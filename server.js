@@ -14,7 +14,6 @@ const githubToken = process.env.POLL_GITHUB_TOKEN;
 const githubRepository = process.env.POLL_GITHUB_REPOSITORY || "TheNamelessEvilNamedNag/1";
 const githubBranch = process.env.POLL_GITHUB_BRANCH || "main";
 const githubDataPath = process.env.POLL_GITHUB_DATA_PATH || "poll-data.json";
-const requireGithubStorage = process.env.POLL_REQUIRE_GITHUB_STORAGE === "true";
 const allowedOrigins = new Set([
   "http://localhost:4173",
   "http://127.0.0.1:4173",
@@ -155,9 +154,6 @@ function serializeOperation(operation) {
 
 function updateData(change) {
   return serializeOperation(async () => {
-    if (requireGithubStorage && !githubToken) {
-      throw new Error("Shared repository storage is not configured. Set POLL_GITHUB_TOKEN on the server.");
-    }
     for (let attempt = 0; ; attempt += 1) {
       if (githubToken) await refreshRepositoryData();
       const result = change();
@@ -433,9 +429,6 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "POST" && url.pathname === "/api/vote/withdraw") return await withdrawVote(req, res);
     if (req.method === "GET" && url.pathname === "/api/stats") {
       const stats = await serializeOperation(async () => {
-        if (requireGithubStorage && !githubToken) {
-          throw new Error("Shared repository storage is not configured. Set POLL_GITHUB_TOKEN on the server.");
-        }
         if (githubToken) await refreshRepositoryData();
         return statsPage();
       });

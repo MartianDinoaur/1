@@ -1,16 +1,12 @@
 # Favorite Things Poll
 
-A static poll site for meat, vegetables, desserts, and animals. Votes are saved in each visitor's browser, so publishing requires no backend, token, or external service.
+A poll site for meat, vegetables, desserts, and animals. Votes are sent to the Node.js server, which stores the shared vote count and serves the latest results.
 
-## Publish on GitHub Pages
+## Hosting
 
-For free GitHub Pages hosting, this repository needs to be public.
+The site and API must be served by the Node.js server at the same origin. GitHub Pages can publish the static files, but it does not run the API, so votes and shared results will not work there by themselves. Do not put a GitHub token in client-side files.
 
-1. Push this repository to GitHub.
-2. In the repository, open **Settings → Pages** and set the build and deployment source to **GitHub Actions**.
-3. Push to the `main` branch or run the **Deploy to GitHub Pages** workflow from the Actions tab.
-
-The workflow publishes the site at `https://<owner>.github.io/<repository>/`.
+By default, the server writes votes to `poll-data.json` in the project directory. For durable shared storage on hosts with an ephemeral filesystem, set `POLL_GITHUB_TOKEN` on the server and configure `POLL_GITHUB_REPOSITORY` if needed. The token must have permission to read and update `POLL_GITHUB_DATA_PATH` on `POLL_GITHUB_BRANCH`.
 
 ## Run locally
 
@@ -20,11 +16,11 @@ npm start
 
 Then visit `http://localhost:4173`.
 
-Each browser can save one answer per poll, and that answer can be changed. Results are private to that browser and are not shared across visitors or devices. Clearing the browser's site data removes its saved votes. Custom answers are stored along with the built-in choices.
+Each visitor can submit one answer per poll, and that answer can be changed by submitting another choice. Vote counts and results are shared across visitors. The server identifies returning visitors with a browser cookie; clearing site data starts a new voting session. Custom answers are stored along with the built-in choices.
 
 ## Start automatically on Windows 10
 
-This optional setup serves a local copy of the site; votes are still saved in each browser.
+This optional setup serves the site and API locally.
 
 Run these commands in Windows PowerShell, after opening the project folder:
 

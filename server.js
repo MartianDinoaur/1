@@ -251,7 +251,15 @@ async function receiveVote(req, res) {
     const session = data.sessions[id] ||= { answers: {}, completedAt: null, startedAt: now.toISOString() };
     const previous = session.answers[category];
     if (previous?.key === key) {
-      return { changed: false, value: { ok: true, choice: previous.label, completed: Boolean(session.completedAt) } };
+      return {
+        changed: false,
+        value: {
+          ok: true,
+          choice: previous.label,
+          completed: Boolean(session.completedAt),
+          totalVotes: data.votes.filter(vote => vote.category === category).length
+        }
+      };
     }
 
     if (previous) {
@@ -266,7 +274,12 @@ async function receiveVote(req, res) {
     }
     return {
       changed: true,
-      value: { ok: true, choice: label, completed: Boolean(session.completedAt) }
+      value: {
+        ok: true,
+        choice: label,
+        completed: Boolean(session.completedAt),
+        totalVotes: data.votes.filter(vote => vote.category === category).length
+      }
     };
   });
   sendJson(res, 200, response);

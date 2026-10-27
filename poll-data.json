@@ -13,6 +13,13 @@
       "key": "Potatoes",
       "label": "Potatoes",
       "timestamp": "2026-10-27T23:57:23.233Z"
+    },
+    {
+      "sessionId": "78f2c5f162a4cd76e20c5c8ccc84b923913adeed5a4f7f9c7f884680aa547659",
+      "category": "desserts",
+      "key": "Ice Cream",
+      "label": "Ice Cream",
+      "timestamp": "2026-10-27T23:57:26.219Z"
     }
   ],
   "sessions": {
@@ -27,6 +34,11 @@
           "key": "Potatoes",
           "label": "Potatoes",
           "updatedAt": "2026-10-27T23:57:23.233Z"
+        },
+        "desserts": {
+          "key": "Ice Cream",
+          "label": "Ice Cream",
+          "updatedAt": "2026-10-27T23:57:26.219Z"
         }
       },
       "completedAt": null,

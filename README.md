@@ -10,6 +10,8 @@ To launch it, first push the repository changes to `main`, then [deploy the Rend
 
 The GitHub Pages workflow publishes the static frontend when the changes are pushed. Once the Render service finishes its initial deploy, both the Render-hosted site and Pages site can submit votes. The first request after Render has slept may take about a minute. Render describes its free tier as intended for hobby/testing rather than production, and its free services may be suspended at usage limits; see [free-instance limitations](https://render.com/docs/free). Do not add a payment method if you want to avoid charges.
 
+The home page displays backend process uptime. It requests `/api/uptime` when the page loads and once per minute while the page remains open; the value resets whenever the server process restarts.
+
 ## Run locally
 
 ```bash

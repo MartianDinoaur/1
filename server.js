@@ -5,6 +5,8 @@ const path = require("path");
 const crypto = require("crypto");
 
 const root = __dirname;
+const serverStartedAt = new Date();
+const serverStartedAtMonotonic = process.hrtime.bigint();
 const dataFile = process.env.POLL_DATA_FILE || path.join(root, "poll-data.json");
 const host = process.env.HOST || "0.0.0.0";
 const port = Number(process.env.PORT || 4173);
@@ -438,6 +440,13 @@ const server = http.createServer(async (req, res) => {
         return statsPage();
       });
       return sendJson(res, 200, stats);
+    }
+    if (req.method === "GET" && url.pathname === "/api/uptime") {
+      const uptimeSeconds = Number((process.hrtime.bigint() - serverStartedAtMonotonic) / 1_000_000_000n);
+      return sendJson(res, 200, {
+        startedAt: serverStartedAt.toISOString(),
+        uptimeSeconds
+      });
     }
     if (await serveStatic(req, res)) return;
     sendJson(res, 404, { error: "Not found" });

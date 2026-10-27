@@ -105,6 +105,43 @@ function chartColor(index) {
   return palette[index] || `hsl(${(index * 137.508) % 360} 48% 58%)`;
 }
 
+function formatUptime(totalSeconds) {
+  const totalMinutes = Math.floor(totalSeconds / 60);
+  const days = Math.floor(totalMinutes / 1440);
+  const hours = Math.floor((totalMinutes % 1440) / 60);
+  const minutes = totalMinutes % 60;
+  const parts = [];
+  if (days) parts.push(`${days} day${days === 1 ? "" : "s"}`);
+  if (hours) parts.push(`${hours} hour${hours === 1 ? "" : "s"}`);
+  parts.push(`${minutes} minute${minutes === 1 ? "" : "s"}`);
+  return parts.join(", ");
+}
+
+function setupUptime() {
+  const output = document.querySelector("#site-uptime");
+  if (!output) return;
+
+  async function refreshUptime() {
+    try {
+      const result = await requestJson(apiUrl("/api/uptime"));
+      if (typeof result.startedAt !== "string" || typeof result.uptimeSeconds !== "number") {
+        throw new Error("The poll server returned incomplete uptime data.");
+      }
+      const startedAt = Date.parse(result.startedAt);
+      if (!Number.isFinite(startedAt)) throw new Error("The poll server returned an invalid start time.");
+      const elapsedSeconds = Math.max(result.uptimeSeconds, (Date.now() - startedAt) / 1000);
+      output.textContent = formatUptime(elapsedSeconds);
+      output.dateTime = result.startedAt;
+      output.title = `This server process started ${new Date(startedAt).toLocaleString()}`;
+    } catch (error) {
+      output.textContent = `Uptime unavailable: ${error.message}`;
+    }
+  }
+
+  refreshUptime();
+  window.setInterval(refreshUptime, 60_000);
+}
+
 async function renderResults() {
   const legend = document.querySelector("#legend");
   const message = document.querySelector("#results-message");
@@ -183,4 +220,5 @@ async function renderResults() {
 }
 
 setupPollPage();
+setupUptime();
 if (document.body.dataset.page === "results") renderResults();

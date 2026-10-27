@@ -27,7 +27,7 @@ const categories = {
 };
 
 function emptyData() {
-  return { votes: [], sessions: {}, migrations: 0 };
+  return { votes: [], sessions: {}, migrations: 0, uptimeSeconds: 0 };
 }
 
 function anonymizeSessionIds(value) {
@@ -51,8 +51,17 @@ function loadData() {
 }
 
 let data = loadData();
+data.uptimeSeconds = Number.isFinite(data.uptimeSeconds) ? data.uptimeSeconds : 0;
+let uptimeAtStart = data.uptimeSeconds;
 let dataSha;
 let operationQueue = Promise.resolve();
+let snapshotTimer;
+const snapshotIntervalMs = 10 * 60 * 1000;
+
+function currentUptimeSeconds() {
+  return uptimeAtStart
+    + Number((process.hrtime.bigint() - serverStartedAtMonotonic) / 1_000_000_000n);
+}
 
 function githubRequest(method, requestPath, body) {
   return new Promise((resolve, reject) => {
@@ -104,10 +113,12 @@ async function refreshRepositoryData() {
       `${githubContentPath}?ref=${encodeURIComponent(githubBranch)}`
     );
     data = anonymizeSessionIds(JSON.parse(Buffer.from(result.content, "base64").toString("utf8")));
+    data.uptimeSeconds = Number.isFinite(data.uptimeSeconds) ? data.uptimeSeconds : 0;
     dataSha = result.sha;
   } catch (error) {
     if (error.status === 404) {
       data = anonymizeSessionIds(data);
+      data.uptimeSeconds = Number.isFinite(data.uptimeSeconds) ? data.uptimeSeconds : 0;
       dataSha = undefined;
       return;
     }
@@ -134,16 +145,31 @@ async function writeDurableFile() {
   }
 }
 
-async function saveData() {
+async function saveData(message = "Record poll vote") {
   if (!githubToken) return writeDurableFile();
 
   const result = await githubRequest("PUT", githubContentPath, {
-    message: "Record poll vote",
+    message,
     content: Buffer.from(`${JSON.stringify(data, null, 2)}\n`).toString("base64"),
     branch: githubBranch,
     ...(dataSha ? { sha: dataSha } : {})
   });
   dataSha = result.content.sha;
+}
+
+function persistSnapshot() {
+  return serializeOperation(async () => {
+    for (let attempt = 0; ; attempt += 1) {
+      if (githubToken) await refreshRepositoryData();
+      data.uptimeSeconds = currentUptimeSeconds();
+      try {
+        await saveData("Save poll and uptime checkpoint");
+        return;
+      } catch (error) {
+        if (!githubToken || ![409, 422].includes(error.status) || attempt >= 3) throw error;
+      }
+    }
+  });
 }
 
 function serializeOperation(operation) {
@@ -170,6 +196,12 @@ function updateData(change) {
 
 async function handleShutdown(signal) {
   console.log(`Received ${signal}; waiting for poll data writes to finish.`);
+  clearInterval(snapshotTimer);
+  try {
+    await persistSnapshot();
+  } catch (error) {
+    console.error("Could not save the final poll and uptime checkpoint:", error);
+  }
   await operationQueue;
   server.close(() => process.exit(0));
 }
@@ -435,10 +467,9 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, stats);
     }
     if (req.method === "GET" && url.pathname === "/api/uptime") {
-      const uptimeSeconds = Number((process.hrtime.bigint() - serverStartedAtMonotonic) / 1_000_000_000n);
       return sendJson(res, 200, {
         startedAt: serverStartedAt.toISOString(),
-        uptimeSeconds
+        uptimeSeconds: currentUptimeSeconds()
       });
     }
     if (await serveStatic(req, res)) return;
@@ -448,8 +479,24 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(port, host, () => {
-  console.log(`Favorite Things running at http://${host}:${port}`);
+async function startServer() {
+  if (githubToken) {
+    await refreshRepositoryData();
+    uptimeAtStart = data.uptimeSeconds;
+  }
+  server.listen(port, host, () => {
+    console.log(`Favorite Things running at http://${host}:${port}`);
+    snapshotTimer = setInterval(() => {
+      persistSnapshot().catch(error => {
+        console.error("Could not save the poll and uptime checkpoint:", error);
+      });
+    }, snapshotIntervalMs);
+  });
+}
+
+startServer().catch(error => {
+  console.error("Could not load durable poll data:", error);
+  process.exitCode = 1;
 });
 
 process.once("SIGTERM", () => handleShutdown("SIGTERM"));
